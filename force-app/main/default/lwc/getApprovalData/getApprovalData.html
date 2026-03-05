@@ -1,0 +1,164 @@
+<template>
+    <lightning-card title="Categorized Approvals">
+        <lightning-tabset>
+
+            <lightning-tab label="Opportunity">
+                <div>
+                    <lightning-button label="Download CSV" icon-name="utility:download"
+                        onclick={handleDownloadOpportunityCSV}>
+                    </lightning-button>
+                </div>
+                <div>
+                    <lightning-button label="Filter" icon-name="utility:filterList" onclick={handelOppFilterClick}>
+                    </lightning-button>
+                </div>
+                <lightning-datatable key-field="Id" data={oppData} columns={oppColumns} hide-checkbox-column>
+                </lightning-datatable>
+            </lightning-tab>
+
+            <lightning-tab label="Account">
+                <div>
+                    <lightning-button label="Download CSV" icon-name="utility:download"
+                        onclick={handleDownloadAccountCSV}>
+                    </lightning-button>
+                </div>
+                <lightning-datatable key-field="Id" data={accData} columns={accColumns} hide-checkbox-column>
+                </lightning-datatable>
+            </lightning-tab>
+
+            <lightning-tab label="Case">
+                <div>
+                    <lightning-button label="Download CSV" icon-name="utility:download" onclick={handleDownloadCaseCSV}>
+                    </lightning-button>
+                </div>
+                <div>
+                    <lightning-button label="Filter" icon-name="utility:filterList" onclick={handelFilterClick}>
+                    </lightning-button>
+                </div>
+                <lightning-datatable key-field="Id" data={caseData} columns={caseColumns} hide-checkbox-column>
+                </lightning-datatable>
+            </lightning-tab>
+
+        </lightning-tabset>
+        <template if:true={isFilter}>
+            <section role="dialog" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+
+                    <!-- Header -->
+                    <header class="slds-modal__header">
+                        <h2 class="slds-text-heading_medium">Filter Records</h2>
+                    </header>
+
+                    <!-- Body -->
+                    <div class="slds-modal__content slds-p-around_medium">
+                        <lightning-input label="Enter Account Name" type="text" onchange={handleAccountChance}>
+                        </lightning-input>
+                    </div>
+
+                    <!-- Footer -->
+                    <footer class="slds-modal__footer">
+                        <lightning-button label="Apply" onclick={handelApply}>
+                        </lightning-button>
+                    </footer>
+
+                </div>
+            </section>
+
+            <!-- Backdrop -->
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </template>
+
+        <!-- Filtered case data -->
+
+        <template if:true={isFilterCase}>
+            <section role="dialog" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+
+                    <!-- Header -->
+                    <header class="slds-modal__header">
+                        <h2 class="slds-text-heading_medium">Filtered Case Records</h2>
+                    </header>
+
+                    <!-- Body -->
+                    <div class="slds-modal__content slds-p-around_medium">
+                        <lightning-datatable key-field="id" data={newFilCasData}
+                            columns={caseColumns}></lightning-datatable>
+                    </div>
+
+                    <!-- Footer -->
+                    <footer class="slds-modal__footer">
+                        <lightning-button label="Back" onclick={handelBack}>
+                        </lightning-button>
+                    </footer>
+
+                </div>
+            </section>
+
+            <!-- Backdrop -->
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </template>
+
+        <!-- Opportunity filter based on amount -->
+
+        <template if:true={isOppFilter}>
+            <section role="dialog" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+
+                    <!-- Header -->
+                    <header class="slds-modal__header">
+                        <h2 class="slds-text-heading_medium">Filter Records</h2>
+                    </header>
+
+                    <!-- Body -->
+                    <div class="slds-modal__content slds-p-around_medium">
+                        <lightning-input label="Enter Minimun Amount" type="currency" onchange={handleMinAmountChance}>
+                        </lightning-input>
+                        <lightning-input label="Enter Maximum Amount" type="currency" onchange={handleMaxAmountChance}>
+                        </lightning-input>
+                    </div>
+
+                    <!-- Footer -->
+                    <footer class="slds-modal__footer">
+                        <lightning-button label="Apply" onclick={handelOppApply}>
+                        </lightning-button>
+                    </footer>
+
+                </div>
+            </section>
+
+            <!-- Backdrop -->
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </template>
+
+        <!-- Opportynity filtered data -->
+
+        <template if:true={isFilteredOpp}>
+            <section role="dialog" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+
+                    <!-- Header -->
+                    <header class="slds-modal__header">
+                        <h2 class="slds-text-heading_medium">Filtered Opportunity Records</h2>
+                    </header>
+
+                    <!-- Body -->
+                    <div class="slds-modal__content slds-p-around_medium">
+                        <lightning-datatable key-field="id" data={newFilOppData}
+                            columns={oppColumns}></lightning-datatable>
+                    </div>
+
+                    <!-- Footer -->
+                    <footer class="slds-modal__footer">
+                        <lightning-button label="Back" onclick={handelBack}>
+                        </lightning-button>
+                    </footer>
+
+                </div>
+            </section>
+
+            <!-- Backdrop -->
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </template>
+
+    </lightning-card>
+</template>

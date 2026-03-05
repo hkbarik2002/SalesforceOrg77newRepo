@@ -1,0 +1,25 @@
+<template>
+    <lightning-card icon-name="standard:account" variant="base">
+        <div>
+            <lightning-button variant="base" label="New" title="Creat New Transaction"
+                onclick={handleClick}></lightning-button>
+        </div>
+
+        <template if:true={isTransaction}>
+            <div>
+                <lightning-input type="text" label="Enter Name" data-field="Name__c"
+                    onchange={haneldInputChange}></lightning-input>
+                <lightning-combobox label="Account" data-field="Account__c" options={accountOptions}
+                    onchange={haneldInputChange}></lightning-combobox>
+                <lightning-combobox label="Success Code" data-field="Success_Code__c" options={successCodeOptions}
+                    onchange={haneldInputChange}></lightning-combobox>
+            </div>
+
+            <div>
+                <lightning-button variant="base" label="Save" title="Save Transaction"
+                    onclick={handleSave}></lightning-button>
+            </div>
+        </template>
+    </lightning-card>
+
+</template>

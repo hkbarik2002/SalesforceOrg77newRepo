@@ -1,0 +1,6 @@
+<template>
+    <h2>Item List</h2>
+    <template for:each={items} for:item="item">
+        <c-child-item-container key={item.id} item={item} onincrements={handleIncrement}></c-child-item-container>
+    </template>
+</template>

@@ -1,0 +1,62 @@
+<template>
+    <lightning-card title="Weather Details" icon-name="utility:weather">
+        <div class="slds-p-around_medium">
+            <!-- Input: City -->
+            <lightning-input label="City" placeholder="Enter city (e.g., Noida)" value={city}
+                onchange={handleCityChange}></lightning-input>
+
+            <!-- Fetch button -->
+            <div class="slds-m-top_small">
+                <lightning-button label="Get Weather" variant="brand" onclick={handleGetWeather}></lightning-button>
+            </div>
+
+            <!-- Loading spinner -->
+            <template if:true={isLoading}>
+                <div class="slds-m-top_small">
+                    <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+                </div>
+            </template>
+
+            <!-- Error message -->
+            <template if:true={errorMessage}>
+                <div class="slds-text-color_error slds-m-top_small">{errorMessage}</div>
+            </template>
+
+            <!-- Weather result card -->
+            <template if:true={weather}>
+                <div class="slds-box slds-m-top_medium">
+                    <h3 class="slds-text-heading_small slds-m-bottom_x-small">Weather for {weather.city}</h3>
+
+                    <div class="slds-grid slds-wrap">
+                        <div class="slds-col slds-size_1-of-2 slds-p-around_xx-small">
+                            <p class="slds-text-body_regular"><strong>Temperature:</strong> {weather.temperature}</p>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2 slds-p-around_xx-small">
+                            <p class="slds-text-body_regular"><strong>Feels Like:</strong> {weather.feelsLike}</p>
+                        </div>
+
+                        <div class="slds-col slds-size_1-of-2 slds-p-around_xx-small">
+                            <p class="slds-text-body_regular"><strong>Min Temp:</strong> {weather.tempMin}</p>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2 slds-p-around_xx-small">
+                            <p class="slds-text-body_regular"><strong>Max Temp:</strong> {weather.rempMax}</p>
+                        </div>
+
+                        <div class="slds-col slds-size_1-of-2 slds-p-around_xx-small">
+                            <p class="slds-text-body_regular"><strong>Humidity:</strong> {weather.humidity}</p>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2 slds-p-around_xx-small">
+                            <p class="slds-text-body_regular"><strong>Pressure:</strong> {weather.pressure}</p>
+                        </div>
+                    </div>
+                </div>
+            </template>
+
+            <!-- No result hint -->
+            <template if:false={weather}>
+                <p class="slds-text-body_small slds-m-top_small">Enter a city and click "Get Weather" to see details.
+                </p>
+            </template>
+        </div>
+    </lightning-card>
+</template>

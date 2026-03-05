@@ -1,0 +1,33 @@
+<apex:page standardController="Contact">
+    <apex:form >
+        <apex:pageMessages />
+        
+        <apex:pageBlock title="Basic Information">
+            <apex:pageBlockSection columns="1">
+                <apex:inputField value="{!Contact.FirstName}"/>
+                <apex:inputField value="{!Contact.LastName}"/>
+            </apex:pageBlockSection>
+            
+            <apex:pageBlockButtons >
+                <apex:actionRegion >
+                    <apex:commandButton value="Save Basic Info" action="{!save}" rerender="out"/>
+                </apex:actionRegion>
+            </apex:pageBlockButtons>
+        </apex:pageBlock>
+        
+        <apex:pageBlock title="Address Information">
+            <apex:pageBlockSection columns="1">
+                <apex:inputField value="{!Contact.MailingStreet}"/>
+                <apex:inputField value="{!Contact.MailingCity}"/>
+            </apex:pageBlockSection>
+            
+            <apex:pageBlockButtons >
+                <apex:commandButton value="Save All Info" action="{!save}" rerender="out"/>
+            </apex:pageBlockButtons>
+        </apex:pageBlock>
+        
+        <apex:outputPanel id="out">
+        </apex:outputPanel>
+        
+    </apex:form>
+</apex:page>

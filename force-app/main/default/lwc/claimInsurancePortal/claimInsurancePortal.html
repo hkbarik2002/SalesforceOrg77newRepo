@@ -1,0 +1,218 @@
+<template>
+
+    <lightning-card title="Insurance Policy UI" icon-name="standard:insurance_policy">
+
+        <div class="slds-p-around_medium">
+
+            <!-- Responsive Grid -->
+            <div class="slds-grid slds-wrap slds-grid_vertical-align-center slds-grid_align-spread">
+
+                <!-- Policy Holder Dropdown -->
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-3 slds-p-around_small">
+                    <lightning-combobox label="Policy Holder" value={stPolicyHolder} placeholder="Select Policy Holder"
+                        options={policieHolders} onchange={hanPolicyHolderChange}>
+                    </lightning-combobox>
+                </div>
+
+                <!-- Buttons Section -->
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-3 slds-p-around_small">
+
+                    <div
+                        class="slds-grid slds-wrap slds-grid_align-center slds-grid_vertical-align-center slds-gutters">
+
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning-button variant="brand-outline" label="Create Policy Holder"
+                                title="Create Policy Holder" icon-name="utility:add" icon-position="left"
+                                class="slds-button_stretch" onclick={handleCpho}>
+                            </lightning-button>
+                        </div>
+
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning-button variant="brand" label="Search Policy" title="Search Policy"
+                                icon-name="utility:search" icon-position="left" class="slds-button_stretch"
+                                onclick={handleSearchPolicy}>
+                            </lightning-button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </lightning-card>
+
+
+    <template if:true={creatCpho}>
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- Body -->
+                <div class="slds-modal__content slds-p-around_medium">
+                    <lightning-input type="text" label="Name" name="phName" onchange={handelCreNewPoHo}>
+                    </lightning-input>
+
+                    <lightning-input type="date" label="Date of Birth" name="phDate" onchange={handelCreNewPoHo}>
+                    </lightning-input>
+
+                    <lightning-input type="phone" label="Phone Number" name="phPhone" onchange={handelCreNewPoHo}>
+                    </lightning-input>
+                </div>
+
+                <!-- Footer -->
+                <footer class="slds-modal__footer slds-text-align_right">
+                    <lightning-button variant="neutral" label="Cancel" onclick={closePopUp}>
+                    </lightning-button>
+
+                    <lightning-button variant="brand" label="Save" class="slds-m-left_small" onclick={handleSavePoHO}>
+                    </lightning-button>
+                </footer>
+            </div>
+        </section>
+
+        <!-- Backdrop -->
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+    <template if:true={showInPoli}>
+        <lightning-card>
+            <div>
+                <lightning-button variant="destructive" label="New Insurance Policy"
+                    onclick={handleNewInPo}></lightning-button>
+            </div>
+            <div>
+                <lightning-datatable key-field="Id" data={insurancePolicy} onrowaction={handleInPoRowAction}
+                    hide-checkbox-column columns={insurancePolicyColumn}></lightning-datatable>
+            </div>
+        </lightning-card>
+    </template>
+
+    <!-- Insurance policy input field -->
+    <template if:true={showInpoInputForm}>
+        <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-insurance-heading"
+            class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+
+                <!-- Header -->
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close" title="Close" onclick={closePopUp}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close"
+                            size="small"></lightning-icon>
+                    </button>
+                </header>
+
+                <!-- Body -->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-insurance-content">
+                    <lightning-combobox label="Policy Type" name="ipPolicyType" options={ipPolityOption}
+                        value={inpPoliType} onchange={handelInsuPoliInputFields}>
+                    </lightning-combobox>
+
+                    <lightning-input type="number" name="ipCovAmount" label="Coverage Amount" formatter="currency"
+                        value={inpCoAmount} onchange={handelInsuPoliInputFields}>
+                    </lightning-input>
+
+                    <lightning-combobox label="Status" name="ipStatus" options={ipStatusOption} value={inpStatus}
+                        onchange={handelInsuPoliInputFields}>
+                    </lightning-combobox>
+
+                    <lightning-input type="date" name="cFromDate" label="Valid From" value={inpFromDate}
+                        onchange={handelInsuPoliInputFields}>
+                    </lightning-input>
+
+                    <lightning-input type="date" name="ipToDate" label="Valid To" value={inpToDate}
+                        onchange={handelInsuPoliInputFields}>
+                    </lightning-input>
+                </div>
+
+                <!-- Footer -->
+                <footer class="slds-modal__footer">
+                    <lightning-button variant="success" label="Save" onclick={handleSaveInsuPo}></lightning-button>
+                    <lightning-button variant="neutral" label="Cancel" onclick={closePopUp}></lightning-button>
+                </footer>
+
+            </div>
+        </section>
+
+        <!-- Modal Backdrop -->
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+    <!-- Show Claim Data -->
+    <template if:true={showClaimData}>
+        <lightning-card>
+            <lightning-datatable key-field="Id" data={claimedData} hide-checkbox-column
+                onrowaction={handleClaimRowAction} columns={claimDataColumn}></lightning-datatable>
+            <div>
+                <lightning-button variant="success" label="Creat New Claim" onclick={handleNewClaim}></lightning-button>
+            </div>
+        </lightning-card>
+    </template>
+
+    <!-- Claim Data Input Fields -->
+    <template if:true={showClaimInpu}>
+        <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading"
+            class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+
+                <!-- Header -->
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close" title="Close" onclick={closePopUp}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close"
+                            size="small"></lightning-icon>
+                    </button>
+                </header>
+
+                <!-- Body -->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <lightning-input type="number" name="cAmount" label="Claim Amount" formatter="currency"
+                        value={clAmount} onchange={handelClaimInputFields}></lightning-input>
+
+                    <lightning-combobox label="Claim Status" name="cStatus" options={cStatusOption} value={clStatus}
+                        onchange={handelClaimInputFields}></lightning-combobox>
+
+                    <lightning-input type="date" name="cDate" label="Claim Date" value={clData}
+                        onchange={handelClaimInputFields}></lightning-input>
+                </div>
+
+                <!-- Footer -->
+                <footer class="slds-modal__footer">
+                    <lightning-button variant="success" label="Save" onclick={handleSaveClaim}></lightning-button>
+                    <lightning-button variant="neutral" label="Cancel" onclick={closePopUp}></lightning-button>
+                </footer>
+
+            </div>
+        </section>
+
+        <!-- Modal Backdrop -->
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+    <!-- show Assessment And Payout Data-->
+    <template if:true={showAssAndPayData}>
+        <div>
+            <lightning-datatable key-field="id" data={allAssessmentDate} onrowaction={assessmentRowAction}
+                hide-checkbox-column columns={assessmentColumn}></lightning-datatable>
+            <lightning-datatable key-field="id" data={allpayOutData} columns={payOutDataColumn}
+                hide-checkbox-column></lightning-datatable>
+        </div>
+    </template>
+
+    <template if:true={showAssessPopup}>
+        <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading"
+            class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+
+                <!-- Body -->
+                <div class="slds-modal__content slds-p-around_medium">
+                    <lightning-combobox label="Recommendation" name="cStatus" options={recommeFieldData}
+                        value={recommenValue} onchange={handelRecommField}></lightning-combobox>
+                </div>
+
+                <!-- Footer -->
+                <footer class="slds-modal__footer">
+                    <lightning-button variant="success" label="Save" onclick={handleSaveAssess}></lightning-button>
+                    <lightning-button variant="neutral" label="Cancel" onclick={closePopUp}></lightning-button>
+                </footer>
+
+            </div>
+        </section>
+
+        <!-- Modal Backdrop -->
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</template>

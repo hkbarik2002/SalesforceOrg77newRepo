@@ -1,0 +1,160 @@
+<!-- loanRepaymentPortal.html -->
+<template>
+    <lightning-card title="Loan Repayment Portal" icon-name="standard:money">
+        <div class="slds-p-around_medium">
+
+            <!-- CUSTOMER VIEW -->
+            <template if:true={isCustomer}>
+                <div class="slds-grid slds-grid_align-start slds-wrap" style="gap:1rem;">
+                    <!-- Left: Active loans -->
+                    <div class="slds-col slds-size_1-of-2">
+                        <lightning-card title="Active Loans" icon-name="standard:record">
+                            <div class="slds-p-around_small">
+                                <template if:true={activeLoans}>
+                                    <lightning-datatable key-field="Id" data={activeLoans} columns={loanColumns}
+                                        onrowaction={handleLoanRowAction} onsort={handleLoanSort}
+                                        hide-checkbox-column></lightning-datatable>
+                                </template>
+                                <template if:false={activeLoans}>
+                                    <p class="slds-text-body_regular">No active loans found.</p>
+                                </template>
+                            </div>
+                        </lightning-card>
+                    </div>
+
+                    <!-- Right: Loan details & repayment input -->
+                    <template if:true={isSelectedLoan}>
+                        <div class="slds-col slds-size_1-of-2">
+                            <template if:true={selectedLoan}>
+                                <lightning-card title="Loan Details" icon-name="standard:money">
+                                    <div class="slds-p-around_small">
+                                        <p class="slds-text-heading_small">{selectedLoan.Name}</p>
+                                        <p class="slds-text-body_regular">Status: <strong>{selectedLoan.Status}</strong>
+                                        </p>
+                                        <p class="slds-text-body_regular">Remaining Balance:
+                                            <strong>{selectedLoan.RemainAmount}</strong>
+                                        </p>
+                                        <p class="slds-text-body_small slds-m-top_x-small">Next payment due on:
+                                            <strong>{selectedLoan.nextDueDateLabel}</strong>
+                                        </p>
+                                    </div>
+                                </lightning-card>
+
+                                <!-- Repayment History -->
+                                <lightning-card title="Repayment History" class="slds-m-top_small">
+                                    <div class="slds-p-around_small">
+                                        <template if:true={repayments}>
+                                            <lightning-datatable key-field="Id" data={repayments}
+                                                columns={repaymentColumns} hide-checkbox-column></lightning-datatable>
+                                        </template>
+                                        <template if:false={repayments}>
+                                            <p>No repayments found for this loan.</p>
+                                        </template>
+                                    </div>
+                                </lightning-card>
+
+                                <!-- Penalties -->
+                                <lightning-card title="Penalties" class="slds-m-top_small">
+                                    <div class="slds-p-around_small">
+                                        <template if:true={penalties}>
+                                            <lightning-datatable key-field="Id" data={penalties}
+                                                columns={penaltyColumns} hide-checkbox-column></lightning-datatable>
+                                        </template>
+                                        <template if:false={penalties}>
+                                            <p>No penalties for this loan.</p>
+                                        </template>
+                                    </div>
+                                </lightning-card>
+                            </template>
+
+                            <template if:false={selectedLoan}>
+                                <lightning-card>
+                                    <div class="slds-p-around_small">
+                                        <p>Select a loan from the left to view details, repayments, and add a repayment.
+                                        </p>
+                                    </div>
+                                </lightning-card>
+                            </template>
+                        </div>
+                    </template>
+                </div>
+            </template>
+            <!-- Creat New Repayment -->
+            <template if:true={isModalOpen}>
+                <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+                    <div class="slds-modal__container">
+
+                        <!-- Modal Body -->
+                        <div class="slds-modal__content slds-p-around_medium">
+                            <div class="slds-grid slds-grid_align-spread">
+                                <div class="slds-col slds-size_1-of-2">
+                                    <lightning-input name="amount" label="Amount" type="number" min="0.01" step="0.01"
+                                        value={repayAmount} onchange={handleAmountChange}></lightning-input>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2">
+                                    <lightning-input name="paymentDate" label="Payment Date(dd/mm/yyyy)" type="date"
+                                        value={repayDate} onchange={handleDateChange}></lightning-input>
+                                </div>
+                            </div>
+
+                            <div class="slds-m-top_small slds-grid slds-grid_align-spread">
+                                <lightning-button variant="brand" label="Submit Repayment"
+                                    onclick={submitRepayment}></lightning-button>
+                                <lightning-button variant="neutral" label="Refresh"
+                                    onclick={refreshLoan}></lightning-button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Modal Backdrop -->
+                <div class="slds-backdrop slds-backdrop_open"></div>
+            </template>
+
+            <!-- ADMIN VIEW -->
+            <template if:true={isAdmin}>
+                <div class="slds-grid slds-grid_vertical slds-wrap" style="gap:1rem;">
+                    <lightning-card title="Customers & Outstanding Balances" icon-name="standard:contact">
+                        <div class="slds-p-around_small">
+                            <template if:true={customers}>
+                                <lightning-datatable key-field="Id" data={customers} columns={customerColumns}
+                                    onrowaction={handleCustomerRowAction} hide-checkbox-column></lightning-datatable>
+                            </template>
+                            <template if:false={customers}>
+                                <p>No customers found.</p>
+                            </template>
+                        </div>
+                    </lightning-card>
+
+                    <template if:true={selectedCustomer}>
+                        <lightning-card title="Customer Details">
+                            <div class="slds-p-around_small">
+                                <p class="slds-text-heading_small">{selectedCustomer.Name}</p>
+                                <p>Total Outstanding: <strong>{selectedCustomer.TotalOutstandingBalance}</strong></p>
+
+                                <div class="slds-m-top_medium">
+                                    <h4>Loans</h4>
+                                    <template if:true={customerLoans}>
+                                        <lightning-datatable key-field="Id" data={customerLoans}
+                                            columns={adminLoanColumns} onrowaction={handleAdminLoanRowAction}
+                                            hide-checkbox-column></lightning-datatable>
+                                    </template>
+                                    <template if:false={customerLoans}>
+                                        <p>No loans for this customer.</p>
+                                    </template>
+
+                                    <div class="slds-m-top_small">
+                                        <lightning-button variant="brand" label="Close Loan" onclick={manualCloseLoan}
+                                            class="slds-m-right_small"></lightning-button>
+                                        <lightning-button variant="neutral" label="Reopen Loan"
+                                            onclick={manualReopenLoan}></lightning-button>
+                                    </div>
+                                </div>
+                            </div>
+                        </lightning-card>
+                    </template>
+                </div>
+            </template>
+        </div>
+    </lightning-card>
+</template>

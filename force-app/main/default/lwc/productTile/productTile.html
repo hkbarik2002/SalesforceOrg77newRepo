@@ -1,0 +1,9 @@
+<template>
+    <lightning-card>
+        <div class="slds-align_absolute-center slds-box">
+            <lightning-button variant="destructive" label="Calculate" onclick={handleCalculation}></lightning-button>
+        </div>
+        <lightning-datatable variant={buttonVariant} key-field="id" data={_allProduct} columns={columns}
+            onrowaction={handleRowAction} hide-checkbox-column=true></lightning-datatable>
+    </lightning-card>
+</template>

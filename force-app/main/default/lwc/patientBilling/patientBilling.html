@@ -1,0 +1,200 @@
+<template>
+    <lightning-card title="Patient Management" icon-name="standard:people">
+        <!-- Patient Selection -->
+        <div class="slds-p-around_medium section">
+            <div class="slds-grid slds-grid_align-spread slds-grid_vertical-align-center">
+                <!-- Combobox -->
+                <div class="slds-col slds-size_2-of-3">
+                    <lightning-combobox label="Patient" value={patientValue} placeholder="Select Patient"
+                        options={patientOptions} onchange={handlePatientChange}>
+                    </lightning-combobox>
+                </div>
+
+                <!-- Button beside combobox -->
+                <div class="slds-col slds-size_1-of-3 slds-m-left_small slds-m-top_large">
+                    <lightning-button label="Add New Patient" variant="brand" onclick={handleAddPatient}>
+                    </lightning-button>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- SSSSSSSSSSSSSSTTTTTTTTTAAAAAAAAAAAARRRRRRRRRRRRRTTTTTTTTTTT -->
+        <template if:true={showToCreatPAtient}>
+            <section role="dialog" tabindex="-1" aria-modal="true" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <lightning-card class="slds-p-around_medium slds-shadow_medium slds-var-p-around_small"
+                        title="Creat New Patient">
+                        <div class="slds-p-around_small">
+                            <lightning-input label="Name" name="tname" onchange={handleNewPatient} value={patientName}
+                                class="slds-m-bottom_small">
+                            </lightning-input>
+                            <lightning-combobox name="tGender" label="Gender" placeholder="Select Progress"
+                                options={genderData} onchange={handleNewPatient}
+                                value={patientGender}></lightning-combobox>
+
+                            <lightning-input label="DOB" name="tDob" type="Date" onchange={handleNewPatient}
+                                class="slds-m-bottom_small" value={patientDob}>
+                            </lightning-input>
+                            <lightning-input label="Contact Info" name="tContactInfo" type="Name" value={patientConInfo}
+                                onchange={handleNewPatient} class="slds-m-bottom_small">
+                            </lightning-input>
+                        </div>
+
+                        <footer class="slds-modal__footer slds-align_absolute-center">
+                            <lightning-button variant="neutral" label="Cancel" class="slds-m-right_small"
+                                onclick={closePopup}></lightning-button>
+                            <lightning-button variant="brand" label="Save" onclick={saveNewPatient}></lightning-button>
+                        </footer>
+                    </lightning-card>
+                </div>
+            </section>
+
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </template>
+        <!-- EEEEEEEEEENNNNNNNNNNNNNNNDDDDDDDDDDDDDDDDDD -->
+
+        <!-- Appointment Section -->
+        <template if:true={showAppointmentData}>
+            <div class="slds-box slds-theme_default slds-m-around_medium section">
+                <h2 class="slds-text-heading_small slds-m-bottom_small slds-text-title_caps">
+                    Appointments
+                </h2>
+                <lightning-datatable key-field="id" data={appointMentData} columns={appointMentColumns}
+                    onrowaction={handelRowAction} hide-checkbox-column="true">
+                </lightning-datatable>
+                <div class="slds-m-top_medium slds-align_absolute-center">
+                    <lightning-button variant="brand" label="New Appointment" onclick={handNewAppointment}>
+                    </lightning-button>
+                </div>
+            </div>
+        </template>
+
+        <!-- Creat new Appointment section -->
+        <template if:true={showToCreatAppointment}>
+            <section role="dialog" tabindex="-1" aria-modal="true" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <lightning-card class="slds-p-around_medium slds-shadow_medium slds-var-p-around_small"
+                        title="Creat New Appointment">
+                        <div class="slds-p-around_small">
+                            <lightning-combobox name="aDostor" label="Doctor Name" value={aDoctorName}
+                                options={getdorData} onchange={handleNewAppointment}></lightning-combobox>
+                            <lightning-input name="aDate" label="Date-Time" type="datetime" value={aDateTime}
+                                onchange={handleNewAppointment} class="slds-m-bottom_small">
+                            </lightning-input>
+                            <lightning-combobox name="aStatus" label="Status" value={aStatus} options={appStatusOption}
+                                onchange={handleNewAppointment}></lightning-combobox>
+                        </div>
+
+                        <footer class="slds-modal__footer slds-align_absolute-center">
+                            <lightning-button variant="neutral" label="Cancel" class="slds-m-right_small"
+                                onclick={closePopup}></lightning-button>
+                            <lightning-button variant="brand" label="Save"
+                                onclick={saveNewAppointment}></lightning-button>
+                        </footer>
+                    </lightning-card>
+                </div>
+            </section>
+
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </template>
+        <!-- EEEEEEEEEENNNNNNNNNNNNNNNDDDDDDDDDDDDDDDDDD -->
+
+        <!-- Treatment and Billing Section -->
+        <template if:true={showTreatmentAndBillingData}>
+            <div class="slds-box slds-theme_shade slds-m-around_medium section">
+                <h2 class="slds-text-heading_small slds-m-bottom_small slds-text-title_caps">
+                    Treatments
+                </h2>
+                <lightning-datatable key-field="id" data={treatmentData} columns={treatmentColumns}
+                    hide-checkbox-column="true">
+                </lightning-datatable>
+
+                <!-- <div class="slds-m-top_medium slds-align_absolute-center">
+                    <lightning-button variant="brand" label="New Treatment" onclick={handNewTreatment}>
+                    </lightning-button>
+                </div> -->
+            </div>
+
+            <div class="slds-box slds-theme_default slds-m-around_medium section">
+                <h2 class="slds-text-heading_small slds-m-bottom_small slds-text-title_caps">
+                    Billing Details
+                </h2>
+
+                <div class="slds-grid slds-wrap slds-grid_vertical-align-start">
+                    <!-- Datatable (left side) -->
+                    <div class="slds-col slds-size_9-of-12">
+                        <lightning-datatable key-field="id" data={billingData} columns={billingcolumns}
+                            hide-checkbox-column="true">
+                        </lightning-datatable>
+                    </div>
+
+                    <!-- Button (right side) -->
+                    <div class="slds-col slds-size_3-of-12 slds-p-left_medium slds-align_absolute-center">
+                        <lightning-button variant="brand" label={showBillLabel} onclick={handleGenerateBill}
+                            disabled={fullyPaid}>
+                        </lightning-button>
+                    </div>
+                </div>
+            </div>
+
+        </template>
+
+        <!-- Add New Treatment Section -->
+        <template if:true={showNewTreatment}>
+            <section role="dialog" tabindex="-1" aria-modal="true" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <lightning-card class="slds-p-around_medium slds-shadow_medium slds-var-p-around_small"
+                        title="Add New Treatment">
+                        <div class="slds-p-around_small">
+                            <lightning-combobox name="tType" label="Treatment Type" value={selectedTreatmentType}
+                                required=true placeholder="Select Treatment Type" options={treatmentType}
+                                onchange={handleChangeForAddTreatmnet}>
+                            </lightning-combobox>
+
+                            <lightning-input label="Cost" name="tCost" type="number" class="slds-m-top_small"
+                                value={EnteredtreatmentCost} required=true onchange={handleChangeForAddTreatmnet}>
+                            </lightning-input>
+                        </div>
+                        <footer class="slds-modal__footer slds-align_absolute-center">
+                            <lightning-button variant="neutral" label="Cancel" class="slds-m-right_small"
+                                onclick={closePopup}></lightning-button>
+                            <lightning-button variant="brand" label="Save"
+                                onclick={handSaveTreatment}></lightning-button>
+                        </footer>
+                    </lightning-card>
+                </div>
+            </section>
+
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </template>
+        <!-- Pay Bill -->
+        <template if:true={showPayBill}>
+            <section role="dialog" tabindex="-1" aria-modal="true" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <lightning-card class="slds-p-around_medium slds-shadow_medium slds-var-p-around_small"
+                        title="Pay Outstanding Balance">
+                        <div class="slds-p-around_small">
+                            <lightning-input label="Outstanding Balance" value={outstandingBal}
+                                class="slds-m-bottom_small">
+                            </lightning-input>
+
+                            <lightning-input label="Enter Amount" name="tPay" type="number" onchange={handlePayData}
+                                value={stoPayAmount} class="slds-m-bottom_small">
+                            </lightning-input>
+                        </div>
+
+                        <footer class="slds-modal__footer slds-align_absolute-center">
+                            <lightning-button variant="neutral" label="Cancel" class="slds-m-right_small"
+                                onclick={closePopup}></lightning-button>
+                            <lightning-button variant="brand" label="Pay" onclick={handelbillpay}></lightning-button>
+                        </footer>
+                    </lightning-card>
+                </div>
+            </section>
+
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </template>
+
+    </lightning-card>
+</template>

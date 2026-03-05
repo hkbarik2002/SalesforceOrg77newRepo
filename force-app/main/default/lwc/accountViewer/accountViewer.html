@@ -1,0 +1,7 @@
+<template>
+    <lightning-card title="Accounts Inline Edit with Refresh">
+        <lightning-datatable key-field="Id" data={accounts} columns={columns} draft-values={draftValues}
+            onsave={handleSave} hide-checkbox-column>
+        </lightning-datatable>
+    </lightning-card>
+</template>

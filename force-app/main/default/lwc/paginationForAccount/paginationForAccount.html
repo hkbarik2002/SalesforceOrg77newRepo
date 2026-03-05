@@ -1,0 +1,29 @@
+<template>
+    <lightning-card title="Policy Holders (Infinite Scroll)">
+        <lightning-datatable key-field="Id" data={records} columns={Colunms} enable-infinite-loading
+            onloadmore={loadMoreData}>
+        </lightning-datatable>
+    </lightning-card>
+</template>
+
+
+<!-- <template>
+    <lightning-card icon-name="standard:account" variant="base" title="Showing Accounts By Pagination">
+        <Template if:true={data}>
+            <lightning-datatable key-field="id" data={data} columns={Colunms}
+                hide-checkbox-column="true"></lightning-datatable>
+        </Template>
+        <div class="slds-align_absolute-center slds-m-top_medium">
+            <lightning-button label="Previous" icon-name="utility:chevronleft" onclick={handlePrevious}
+                disabled={isFirstPage} class="slds-m-right_x-small"></lightning-button>
+
+            <span class="slds-m-horizontal_small">
+                Page {page} of {totalPages}
+            </span>
+
+            <lightning-button label="Next" icon-name="utility:chevronright" icon-position="right" onclick={handleNext}
+                disabled={isLastPage} class="slds-m-left_x-small"></lightning-button>
+        </div>
+
+    </lightning-card>
+</template> -->

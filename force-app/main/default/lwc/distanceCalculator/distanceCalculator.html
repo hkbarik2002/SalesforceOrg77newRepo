@@ -1,0 +1,17 @@
+<template>
+    <lightning-card icon-name="standard:account" variant="base">
+        <div>
+            <lightning-input type="number" label="Location 1 Latitude" onchange={handleLat1Change}></lightning-input>
+            <lightning-input type="number" label="Location 1 Longitude" onchange={handleLon1Change}></lightning-input>
+        </div>
+        <div>
+            <lightning-button label="Calculate Distance" variant="brand" onclick={handleCalculate}>
+            </lightning-button>
+        </div>
+        <template if:true={distance}>
+            <p class="slds-m-top_medium">
+                <strong>Distance:</strong> {distance} KM
+            </p>
+        </template>
+    </lightning-card>
+</template>

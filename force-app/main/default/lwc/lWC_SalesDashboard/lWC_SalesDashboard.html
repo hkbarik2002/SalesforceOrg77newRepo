@@ -1,0 +1,71 @@
+<template>
+    <lightning-card title="Sales Dashbord">
+        <div class="slds-grid slds-wrap slds-p-around_medium">
+            <div class="slds-size_1-of-1 slds-p-bottom_small">
+                <lightning-combobox name="account" label="Select Account" value={selectedAccountId}
+                    options={accountOptions} onchange={handleAccountChange} class="slds-m-buttom_small">
+                </lightning-combobox>
+            </div>
+            <div class="slds-col slds-size_1-of-2 slds-p-around_x-small">
+                <lightning-combobox name="stage" label="Select Stage" value={selectedStage} options={stageOptions}
+                    onchange={handleStageChange} class="slds-m-buttom_small">
+                </lightning-combobox>
+            </div>
+            <div class="slds-col slds-size_1-of-2 slds-p-around_x-small">
+                <lightning-input type="date" label="Start Date" value={startDate}
+                    onchange={handelStartDateChange}></lightning-input>
+            </div>
+            <div class="slds-col slds-size_1-of-2 slds-p-around_x-small">
+                <lightning-input type="date" label="End Date" value={endDate}
+                    onchange={handelEndDateChange}></lightning-input>
+            </div>
+            <div class="slds-col slds-size_1-of-1 slds-align_absolute-center slds-p-top_medium">
+                <lightning-button class="slds-m-buttom_small" label="search" variant="destructive"
+                    onclick={handelSearchClick}></lightning-button>
+            </div>
+        </div>
+        <template if:true={opportunities}>
+            <template for:each={opportunities} for:item="opp">
+                <div key={opp.opportynitys.Id}>
+                    <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                        <thead>
+                            <tr>
+                                <th>Opportunity Name</th>
+                                <th>Stage Name</th>
+                                <th>Total Product</th>
+                                <th>Total Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{opp.opportynitys.Name}</td>
+                                <td>{opp.opportynitys.StageName}</td>
+                                <td>{opp.totalProduct}</td>
+                                <td>{opp.totalAmount}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                        <thead>
+                            <tr>
+                                <th>Product Id</th>
+                                <th>Quantity</th>
+                                <th>Unit Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={opp.opportynitys.OpportunityLineItems} for:item="item">
+                                <tr key={item.Id}>
+                                    <td>{item.Product2Id}</td>
+                                    <td>{item.Quantity}</td>
+                                    <td>{item.UnitPrice}</td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+            </template>
+        </template>
+    </lightning-card>
+</template>

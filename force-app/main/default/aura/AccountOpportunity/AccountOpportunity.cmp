@@ -1,0 +1,27 @@
+<aura:component implements="flexipage:availableForAllPageTypes" access="global" controller="AccountOpportunityController">
+    <aura:attribute name="acctName" type="String"/>
+    <aura:attribute name="account" type="Object"/>
+    <aura:attribute name="opportunities" type="List"/>
+    <aura:attribute name="error" type="String"/>
+    
+    <lightning:input 
+                     label="Enter Account Name"
+                     value="{!v.acctName}" />
+    <lightning:button 
+                      label="Search"
+                      onclick="{!c.search}"/>
+    
+    <aura:if isTrue="{!not(empty(v.account))}">
+        <p><b>Account Name:</b> {!v.account.Name}</p>
+        <p><b>Industry:</b> {!v.account.Industry}</p>
+        
+        <p><b>Opportunities:</b></p>
+        <aura:iteration items="{!v.opportunities}" var="opp">
+            <p>- {!opp.Name} | Amount: {!opp.Amount} | Stage: {!opp.StageName}</p>
+        </aura:iteration>
+    </aura:if>
+    
+    <aura:if isTrue="{!not(empty(v.error))}">
+        <p style="color:red">{!v.error}</p>
+    </aura:if>
+</aura:component>

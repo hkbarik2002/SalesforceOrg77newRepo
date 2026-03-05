@@ -1,0 +1,49 @@
+<template>
+    <lightning-card title="Sales Dashboard" icon-name="standard:account">
+        <div class="slds-p-around_medium">
+            <!-- Account Selection -->
+            <div class="slds-form-element slds-m-bottom_medium">
+                <label class="slds-form-element__label">Select Accounts</label>
+                <div class="slds-form-element__control">
+                    <lightning-combobox name="accounts" label="Accounts" placeholder="Select Accounts"
+                        value={selectedAccountIds} options={accountOptions} onchange={handleAccountChange}
+                        variant="label-hidden" multiselect>
+                    </lightning-combobox>
+                </div>
+            </div>
+
+            <!-- Loader -->
+            <template if:true={isLoading}>
+                <lightning-spinner alternative-text="Loading"></lightning-spinner>
+            </template>
+
+            <!-- Data Display -->
+            <template if:true={hasData}>
+                <!-- Contacts Table -->
+                <div class="slds-m-bottom_large">
+                    <h2 class="slds-text-heading_medium slds-m-bottom_small">Contacts</h2>
+                    <lightning-datatable key-field="id" data={contactsData} columns={contactColumns}
+                        hide-checkbox-column>
+                    </lightning-datatable>
+                </div>
+
+                <!-- Opportunities Table -->
+                <div class="slds-m-bottom_large">
+                    <h2 class="slds-text-heading_medium slds-m-bottom_small">Opportunities</h2>
+                    <div class="slds-m-bottom_small">
+                        <lightning-combobox name="stages" label="Filter by Stage" placeholder="All Stages"
+                            value={selectedStage} options={stageOptions} onchange={handleStageChange}>
+                        </lightning-combobox>
+                    </div>
+                    <lightning-datatable key-field="id" data={filteredOpportunities} columns={opportunityColumns}
+                        hide-checkbox-column>
+                    </lightning-datatable>
+                </div>
+            </template>
+
+            <template if:true={error}>
+                <lightning-alert variant="error" message={error}></lightning-alert>
+            </template>
+        </div>
+    </lightning-card>
+</template>

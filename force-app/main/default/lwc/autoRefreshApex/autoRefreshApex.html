@@ -1,0 +1,13 @@
+<template>
+    <lightning-card title="Review List">
+        <template if:true={Reviews}>
+            <lightning-datatable key-field="Id" data={Reviews} columns={columns} hide-checkbox-column="true">
+            </lightning-datatable>
+        </template>
+        <template if:false={Reviews}>
+            <p class="slds-p-around_medium">No reviews found.</p>
+        </template>
+        <lightning-button label="Refresh Reviews" onclick={handleRefreshClick}
+            class="slds-m-top_medium"></lightning-button>
+    </lightning-card>
+</template>

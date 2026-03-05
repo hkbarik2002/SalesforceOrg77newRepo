@@ -1,0 +1,139 @@
+<template>
+    <!-- Account Selection -->
+    <lightning-card title="Account 360 Dashboard" class="slds-m-around_medium">
+        <div class="slds-p-around_medium">
+            <lightning-combobox label="Select Account" value={selectedAccountId} options={listOfAccount}
+                onchange={handleAccountIdChange}>
+            </lightning-combobox>
+        </div>
+    </lightning-card>
+
+    <!-- Contacts & Opportunities Modal -->
+    <template if:true={ShowContactAndOpportunity}>
+        <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="contactOppHeader"
+            class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+
+                <!-- Header -->
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close" onclick={handleClose}>
+                        <lightning-icon icon-name="utility:close" alternative-text="Close"
+                            size="small"></lightning-icon>
+                    </button>
+                    <h2 id="contactOppHeader" class="slds-text-heading_medium">Contacts & Opportunities</h2>
+                </header>
+
+                <!-- Body -->
+                <div class="slds-modal__content slds-p-around_medium">
+
+                    <!-- Contact Section -->
+                    <div class="slds-box slds-m-bottom_medium">
+                        <h2 class="slds-text-heading_small slds-m-bottom_small">Contacts</h2>
+                        <template if:true={listOfContact}>
+                            <template for:each={listOfContact} for:item="con">
+                                <div key={con.Id} class="slds-p-vertical_small slds-border_bottom">
+                                    <strong>{con.Name}</strong>
+                                    <lightning-input type="text" value={con.Email} data-id={con.Id}
+                                        onchange={handleContactEmailUpdate} class="slds-m-top_x-small">
+                                    </lightning-input>
+                                </div>
+                            </template>
+                            <div class="slds-m-top_medium">
+                                <lightning-button variant="brand" label="Update Email"
+                                    onclick={handleUpdateContact}></lightning-button>
+                            </div>
+                        </template>
+                    </div>
+
+                    <!-- Opportunity Section -->
+                    <div class="slds-box">
+                        <h2 class="slds-text-heading_small slds-m-bottom_small">Opportunities</h2>
+                        <template if:true={listOfOpportunity}>
+                            <lightning-datatable key-field="Id" data={listOfOpportunity} columns={columns}
+                                hide-checkbox-column>
+                            </lightning-datatable>
+                            <div class="slds-m-top_medium">
+                                <lightning-button variant="brand" label="New Opportunity"
+                                    onclick={handleNewOpportunity}></lightning-button>
+                            </div>
+                        </template>
+                    </div>
+
+                </div>
+
+
+                <footer class="slds-modal__footer">
+                    <lightning-button label="Close" onclick={handleClose}></lightning-button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+    <!-- Record Type Selection Modal -->
+    <template if:true={ShowPopup}>
+        <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="recordTypeHeader"
+            class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+
+                <!-- Header -->
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close" onclick={handleClose}>
+                        <lightning-icon icon-name="utility:close" alternative-text="Close"
+                            size="small"></lightning-icon>
+                    </button>
+                    <h2 id="recordTypeHeader" class="slds-text-heading_medium">Select a Record Type</h2>
+                </header>
+
+                <!-- Body -->
+                <div class="slds-modal__content slds-p-around_medium">
+                    <lightning-input type="checkbox" label="Utility Opportunity" name="optionOne" checked={optionOne}
+                        onchange={handleCheckboxChange}>
+                    </lightning-input>
+
+                    <lightning-input type="checkbox" label="Residential Opportunity" name="optionTwo"
+                        checked={optionTwo} onchange={handleCheckboxChange}>
+                    </lightning-input>
+                </div>
+
+
+                <footer class="slds-modal__footer">
+                    <lightning-button label="Back" variant="neutral" onclick={handleBack}></lightning-button>
+                    <lightning-button class="slds-m-left_small" label="Next" variant="brand"
+                        onclick={handleNext}></lightning-button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+    <template if:true={showContent}>
+        <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="recordTypeHeader"
+            class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <lightning-card>
+                    <lightning-input label="Opportunity Name" name="Name" onchange={handelCreatOppInputChanges}
+                        required=true></lightning-input>
+                    <lightning-combobox label="Stage" name="StageName" options={stages}
+                        onchange={handelCreatOppInputChanges} required=true>
+                    </lightning-combobox>
+                    <lightning-input label="Amount" name="Amount" type="number"
+                        onchange={handelCreatOppInputChanges}></lightning-input>
+                    <lightning-input label="Close Date" name="CloseDate" type="date"
+                        onchange={handelCreatOppInputChanges} required=true></lightning-input>
+
+
+                    <div class="slds-m-top_medium">
+                        <lightning-button label="Cancel" onclick={handlepopupClose}></lightning-button>
+                        <lightning-button class="slds-m-left_small" label="Save" onclick={clickToSaveOpportunity}
+                            variant="brand"></lightning-button>
+                    </div>
+                </lightning-card>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+
+</template>

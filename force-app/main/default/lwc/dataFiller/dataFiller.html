@@ -1,0 +1,15 @@
+<template>
+    <lightning-card icon-name="standard:account" variant="base">
+        <div>
+            <lightning-input type="text" label="Name"></lightning-input>
+            <lightning-input type="phone" label="Phone"></lightning-input>
+            <lightning-input type="text" label="Country"></lightning-input>
+        </div>
+        <div>
+            <lightning-button variant="Destructive" label="Pass Data" onclick={passDataOnClick}></lightning-button>
+        </div>
+        <div>
+            <c-person-table df-data={inputData}></c-person-table>
+        </div>
+    </lightning-card>
+</template>

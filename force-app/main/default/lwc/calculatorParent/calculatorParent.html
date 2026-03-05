@@ -1,0 +1,16 @@
+<template>
+    <lightning-card title="Result">
+        <div class="slds-p-around_medium">
+            <c-calculator-child onfair={handleFairEvent}></c-calculator-child>
+
+            <template if:true={result}>
+                <p class="slds-text-heading_medium slds-m-top_medium">
+                    Result: {result}
+                </p>
+            </template>
+        </div>
+        <div>
+            <lightning-button variant="Destructive" label="Send Data" onclick={handleClickMethod}></lightning-button>
+        </div>
+    </lightning-card>
+</template>

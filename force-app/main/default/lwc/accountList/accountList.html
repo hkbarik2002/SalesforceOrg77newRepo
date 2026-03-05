@@ -1,0 +1,29 @@
+<template>
+    <lightning-card title="Account Opportunit Data">
+        <div>
+            <template if:true={totalDataRetrive}>
+                <c-custom-data-type key-field="id" data={totalDataRetrive} columns={columns} hide-checkbox-column
+                    onbuttonmethod={handelSave}>
+                </c-custom-data-type>
+                <div>
+                    <lightning-button label="Previous" variant="destructive" onclick={handelPrevious}
+                        disabled={firstPage}></lightning-button>
+                    <span>Page {currentPage} of {computedOffset}</span>
+                    <lightning-button label="Next" variant="destructive" onclick={handelNext}
+                        disabled={lastPage}></lightning-button>
+                </div>
+            </template>
+            <template if:false={totalDataRetrive}>
+                <div class="slds-text-color_error">Error loading accounts: {totalDataRetrive.body.message}</div>
+            </template>
+            <template if:true={isLoading}>
+                <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+            </template>
+        </div>
+        <div>
+            <lightning-file-upload label="Upload Files" name="fileUploader" accept=".csv,.doc,.xsl,.pdf"
+                record-id={recordId} onuploadfinished={handleUploadFinished} multiple>
+            </lightning-file-upload>
+        </div>
+    </lightning-card>
+</template>

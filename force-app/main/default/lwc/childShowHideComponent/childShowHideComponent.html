@@ -1,0 +1,22 @@
+<template>
+    <lightning-card title="Child Component">
+        <div class="slds-p-around_medium">
+
+            <template if:true={showName}>
+                <lightning-input label="Name" type="text">
+                </lightning-input>
+            </template>
+
+            <template if:true={showPhone}>
+                <lightning-input label="Phone" type="tel">
+                </lightning-input>
+            </template>
+
+            <template if:true={showEmail}>
+                <lightning-input label="Email" type="email">
+                </lightning-input>
+            </template>
+
+        </div>
+    </lightning-card>
+</template>

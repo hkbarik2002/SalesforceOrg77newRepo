@@ -1,0 +1,10 @@
+<template>
+    <lightning-card title="Parent Component">
+        <div class="slds-p-around_medium">
+            <lightning-combobox label="Select Option" value={selectedOption} options={options} onchange={handleChange}>
+            </lightning-combobox>
+
+            <c-child-show-hide-component selected-option={selectedOption}></c-child-show-hide-component>
+        </div>
+    </lightning-card>
+</template>
