@@ -1,0 +1,26 @@
+<template>
+    <lightning-card title="All product Data">
+        <div class="slds-p-around_medium lgc-bg">
+            <lightning-input type="text" label="Enter some text" placeholder="type here..."
+                onchange={trackInputChange}></lightning-input>
+        </div>
+        <table border="1" style="border-collapse: collapse; width:100%">
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Unit Price</th>
+                    <th>Total Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                <template if:true={products.data}>
+                    <template for:each={products.data} for:item="product">
+                        <c-child-product-lwc key={product.productId} product-name={product.productName}
+                            unit-price={product.unitPrice}>
+                        </c-child-product-lwc>
+                    </template>
+                </template>
+            </tbody>
+        </table>
+    </lightning-card>
+</template>

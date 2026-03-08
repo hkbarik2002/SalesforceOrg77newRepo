@@ -21,7 +21,7 @@ export default class CarFieldSetViewer extends LightningElement {
             this.fsData = data.CarsList;
             if (this.fsData && this.fsColumn) {
                 this.allDatafetch = true;
-                //console.log('fsData>>
+                //console.log('fsData>>;
             }
             //console.log('fsColumn>>>', this.fsData);
         }
