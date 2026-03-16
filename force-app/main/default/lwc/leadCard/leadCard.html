@@ -1,0 +1,14 @@
+<template>
+    <div class={cardClass}>
+        <lightning-card title={lead.Name} icon-name="standard:lead">
+            <div class="slds-p-horizontal_small">
+                <p>Zip Code: {lead.regionCode}</p>
+                <p>Current Rep: {lead.ownerName}</p>
+
+                <lightning-button label="Reassign" variant="brand-outline" onclick={handleReassign}
+                    class="slds-m-top_small">
+                </lightning-button>
+            </div>
+        </lightning-card>
+    </div>
+</template>
