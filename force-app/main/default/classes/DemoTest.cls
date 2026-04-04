@@ -1,20 +1,22 @@
 public class DemoTest {
-    public static wrapper testMethods(integer a){
-        wrapper wp = new wrapper();
-       if(a==1){
-            wp.str = 'Salesforce';
+    public static void testMethods(){
+        // 1. Get the Record Type Info safely
+        Schema.RecordTypeInfo rtInfo = SObjectType.Opportunity.getRecordTypeInfosByDeveloperName().get('Utility_Opportunity');
+        
+        // 2. Only run the ConnectApi call if the Record Type actually exists
+        if (rtInfo != null) {
+            Id recordTypeId = rtInfo.getRecordTypeId();
+            
+            ConnectApi.PicklistValuesCollection picklistCollection =
+                ConnectApi.RecordUi.getPicklistValuesByRecordType('Opportunity', recordTypeId);
+            if(picklistCollection != null){
+                // System.debug('Values: ' + picklistCollection);
+                ConnectApi.PicklistValues statusValues = picklistCollection.picklistFieldValues.get('Type');
+                System.debug('statusValues: ' + statusValues);
+                system.debug('statusValues.values: ' + statusValues.values);
+            }
+        } else {
+            System.debug('Error: The Record Type "Utility_Opportunity" does not exist or the user lacks access.');
         }
-        else if(a==2){
-            wp.inte = 99;
-        }
-        else{
-          wp.lint = new List<Integer>{1,2,3};
-        }
-        return wp;
-    }
-    public class wrapper{
-        public integer inte;
-        public String str;
-        public List<Integer> lint;
     }
 }

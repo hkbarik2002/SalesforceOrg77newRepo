@@ -1,0 +1,7 @@
+<template>
+    <lightning-card title="Get opportunity by custom metadata">
+        <template if:true={isLoading}>
+
+            <lightning-datatable key-field="id" data={opps} columns={oppColumn}></lightning-datatable></template>
+    </lightning-card>
+</template>

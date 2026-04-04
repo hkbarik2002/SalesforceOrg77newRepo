@@ -1,0 +1,19 @@
+{
+  "folders": [
+    {
+      "path": "h:/SalesForce/ProjectOnOrg77"
+    }
+  ],
+  "settings": {
+    "eslint.workingDirectories": [
+      "h:/SalesForce/ProjectOnOrg77"
+    ],
+    "eslint.validate": [
+      "javascript",
+      "typescript"
+    ],
+    "eslint.options": {
+      "overrideConfigFile": "h:\\SalesForce\\ProjectOnOrg77\\.eslintrc.json"
+    }
+  }
+}

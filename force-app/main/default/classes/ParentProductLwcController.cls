@@ -5,7 +5,7 @@ public with sharing class ParentProductLwcController {
         
         try {
             // 1. Prepare the query parameters
-            Id standardPriceBookId =  '01sNS000005DrN0YAK';
+            Id standardPriceBookId = '01sNS000005DrN0YAK';
             String searchKey;
             String query = 'SELECT Product2Id, Product2.Name, UnitPrice FROM PricebookEntry WHERE IsActive = true AND Pricebook2Id = :standardPriceBookId';
             

@@ -1,0 +1,105 @@
+<template>
+    <lightning-card title="Creating contact using GraphQL mutation ">
+        <lightning-button-group>
+            <lightning-button label="Creat" onclick={openCreatSection}></lightning-button>
+            <lightning-button label="Update" onclick={openUpdateSection}></lightning-button>
+            <lightning-button label="Delete" onclick={openDeleteSection}></lightning-button>
+        </lightning-button-group>
+        <template lwc:if={isCreatButton}>
+            <lightning-input type="text" label="First Name" onchange={handelFirstNameChange}
+                value={firstName}></lightning-input>
+            <lightning-input type="text" label="Last Name" onchange={handelLastNameChange}
+                value={lastName}></lightning-input>
+            <lightning-button-group>
+                <lightning-button label="save" onclick={handelContactSave}></lightning-button>
+                <lightning-button label="Cancel" onclick={handelContactCancel}></lightning-button>
+            </lightning-button-group>
+        </template>
+        <template lwc:if={isUpdateButton}>
+            <div class="slds-box slds-theme_default slds-p-around_medium slds-m-around_small">
+
+                <!-- Search Section -->
+                <div class="slds-grid slds-gutters slds-align_absolute-center">
+
+                    <!-- Input with icon -->
+                    <div class="slds-col slds-size_2-of-3">
+                        <div class="slds-form-element">
+                            <lightning-combobox placeholder="Select contact ..." options={latestCotactData}
+                                onchange={handleContactOptionChange}></lightning-combobox>
+                            <!-- <input type="text" class="slds-input slds-p-left_large" placeholder="Search records..."
+                                onchange={handleSearch} value={conId} /> -->
+                        </div>
+                    </div>
+
+                    <!-- Button -->
+                    <!-- <div class="slds-col slds-size_1-of-3 slds-text-align_right">
+                        <lightning-button variant="brand" label="Search" onclick={handleSearchButton}
+                            icon-name="utility:search">
+                        </lightning-button>
+                    </div> -->
+
+                </div>
+
+            </div>
+        </template>
+        <template lwc:if={openContactDatas}>
+
+            <div class="slds-box slds-theme_default slds-m-around_medium slds-p-around_large">
+
+                <!-- Header -->
+                <h2 class="slds-text-heading_medium slds-m-bottom_medium">
+                    User Form
+                </h2>
+
+                <!-- First Name -->
+                <lightning-input type="text" label="First Name" name="FirstName" value={contactData.FirstName}
+                    onchange={handleInputChange}>
+                </lightning-input>
+
+                <!-- Last Name -->
+                <lightning-input type="text" label="Last Name" name="LastName" value={contactData.LastName}
+                    onchange={handleInputChange}>
+                </lightning-input>
+
+                <!-- Email -->
+                <lightning-input type="text" label="Email" name="Email" value={contactData.Email}
+                    onchange={handleInputChange}>
+                </lightning-input>
+
+                <!-- Buttons -->
+                <div class="slds-m-top_medium">
+                    <lightning-button-group>
+                        <lightning-button variant="brand" label="Save" onclick={handelUpdateSave}>
+                        </lightning-button>
+
+                        <lightning-button variant="neutral" label="Cancel" onclick={handelUpdateCancel}>
+                        </lightning-button>
+                    </lightning-button-group>
+                </div>
+
+            </div>
+        </template>
+
+        <template lwc:if={isDeleteButton}>
+            <div class="slds-box slds-theme_default slds-p-around_medium slds-m-around_small">
+
+                <!-- 🔥 TOP BUTTON ROW -->
+                <div class="slds-grid slds-grid_align-end slds-m-bottom_small">
+                    <lightning-button variant="brand" label="Search" onclick={handleDeleteButton}
+                        icon-name="action:delete">
+                    </lightning-button>
+                </div>
+
+                <!-- TABLE SECTION -->
+                <div class="slds-grid slds-gutters slds-align_absolute-center">
+                    <div class="slds-col slds-size_2-of-3">
+                        <lightning-datatable key-field="Id" data={listOfAllContactData} columns={contactColumns}
+                            enable-infinite-loading onloadmore={handleLoadMore} onrowselection={handleRowSelection}>
+                        </lightning-datatable>
+                    </div>
+                </div>
+
+            </div>
+        </template>
+    </lightning-card>
+</template>

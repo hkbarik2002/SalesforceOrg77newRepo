@@ -1,0 +1,21 @@
+<template>
+    <lightning-card title="GrapgQl on Car Object">
+        <lightning-input type="text" label="Enter car name" onchange={handelInputChange} value={inputSvelue}
+            icon-name="standard:search"></lightning-input>
+
+        <lightning-spinner alternative-text="Loading..." size="x-small" if:true={isSpinerLoading}></lightning-spinner>
+        <template if:true={caraDetails}>
+            <p class="slds-align_absolute-center" style="color: olive;"> {pageNumber} - Total page of -
+                {totalPages}</p>
+            <lightning-datatable key-field="Id" data={caraDetails} columns={columns}></lightning-datatable>
+        </template>
+        <div>
+            <lightning-button variant="brand-outline" icon-name="action:reset_password"
+                onclick={handleReset}></lightning-button>
+            <lightning-button variant="brand-outline" onclick={handelNext} icon-name="utility:chevronright"
+                disabled={disableNextButton} class="slds-float_right">
+            </lightning-button>
+        </div>
+
+    </lightning-card>
+</template>
