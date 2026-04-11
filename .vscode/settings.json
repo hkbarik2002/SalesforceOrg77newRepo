@@ -41,5 +41,6 @@
   ],
   "eslint.options": {
     "overrideConfigFile": "h:\\SalesForce\\ProjectOnOrg77\\.eslintrc.json"
-  }
+  },
+  "apex-ls-ts.logLevel": "debug"
 }

@@ -1,0 +1,7 @@
+<template>
+    <lightning-button label="Add Row" onclick={handleAddRow}></lightning-button>
+
+    <lightning-datatable key-field="id" data={data} columns={columns} editable=true onsave={handleSave}
+        oncancel={handleCancel} hide-checkbox-column>
+    </lightning-datatable>
+</template>
