@@ -1,0 +1,8 @@
+<template>
+    <lightning-card title="Field set Dynamic column">
+        <!-- <lightning-datatable key-field="id" data={fsData} columns={fsColumn} hide-checkbox-column></lightning-datatable> -->
+        <template if:true={allDatafetch}>
+            <c-child-comp fs-data={fsData} fs-column={fsColumn}></c-child-comp>
+        </template>
+    </lightning-card>
+</template>

@@ -1,0 +1,10 @@
+<template>
+    <td>{productName}</td>
+    <td>
+        {unitPrice} *
+        <lightning-input type="number" variant="label-hidden" onchange={handleChange} placeholder="Enter Quantity"
+            style="display:inline-block; width:80px">
+        </lightning-input>
+    </td>
+    <td>{totalPrice}</td>
+</template>

@@ -1,0 +1,22 @@
+<template>
+    <lightning-card title="Account Info" icon-name="standard:account">
+        <template lwc:if={account.data}>
+            <div class='slds-box slds-theme_success'>
+                <lightning-card title={name}>
+                    <p><strong>Industry:</strong> {industry}</p>
+                </lightning-card>
+            </div>
+            <div>
+                <lightning-button label="View Contacts" onclick={sendData}>
+                </lightning-button>
+            </div>
+            <div>
+                <c-child-account-contact-viewer contacts-data={contact}
+                    lwc:ref="childCmp"></c-child-account-contact-viewer>
+            </div>
+        </template>
+        <template lwc:if={account.error}>
+            <p>Error loading account data.</p>
+        </template>
+    </lightning-card>
+</template>

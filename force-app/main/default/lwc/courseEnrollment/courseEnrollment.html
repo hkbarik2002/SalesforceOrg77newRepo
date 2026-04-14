@@ -1,0 +1,191 @@
+<template>
+    <lightning-card title="Course Enrollment" icon-name="standard:education">
+        <div class="slds-p-around_medium">
+            <!-- Loading spinner -->
+            <template if:true={isLoading}>
+                <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+            </template>
+
+            <!-- Available Courses + Enrollment request (visible to all users) -->
+            <section class="slds-m-bottom_medium">
+                <h3 class="slds-text-heading_small slds-m-bottom_x-small">Available Courses</h3>
+
+                <!-- Course selector -->
+                <lightning-combobox name="courseSelect" label="Select a course" placeholder="Choose a course"
+                    options={courseOptions} value={selectedCourseId} onchange={handleCourseChange}></lightning-combobox>
+
+                <!-- Selected course details -->
+                <template if:true={selectedCourse}>
+                    <div class="slds-box slds-m-top_small">
+                        <lightning-layout multiple-rows>
+                            <lightning-layout-item padding="around-small" size="12">
+                                <p class="slds-text-body_regular"><strong>Course:</strong> {selectedCourse.Name}</p>
+                                <p class="slds-text-body_regular"><strong>Instructor:</strong>
+                                    {selectedCourse.Instructor}</p>
+                                <p class="slds-text-body_regular"><strong>Available Seats:</strong>
+                                    {selectedCourse.Available_Seats}</p>
+                            </lightning-layout-item>
+
+                            <lightning-layout-item padding="around-small" size="12">
+                                <lightning-button label="Request Enrollment" variant="brand"
+                                    onclick={handleRequestEnrollment} disabled={notSeatAvailable}></lightning-button>
+
+                                <template if:true={notSeatAvailable}>
+                                    <p class="slds-text-color_error slds-m-top_x-small">No seats available for this
+                                        course.</p>
+                                </template>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </div>
+                </template>
+                <template if:true={enrolmentVisible}>
+                    <section class="slds-m-around_medium">
+                        <lightning-card title="New Enrollment" icon-name="standard:record">
+                            <div class="slds-modal__container">
+
+                                <!-- Student Combobox with Add New -->
+                                <div class="slds-grid slds-gutters slds-wrap slds-m-bottom_medium">
+                                    <div class="slds-col slds-size_2-of-3">
+                                        <lightning-combobox label="Student Name" placeholder="Choose a student"
+                                            options={listoFStudent} value={selectedStudent}
+                                            onchange={handleStudentChange}>
+                                        </lightning-combobox>
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-3 slds-m-top_large">
+                                        <lightning-button label="Add New" onclick={handleAddNew} variant="brand">
+                                        </lightning-button>
+                                    </div>
+                                </div>
+
+                                <!-- Course Combobox -->
+                                <div class="slds-m-bottom_medium">
+                                    <lightning-combobox label="Course" placeholder="Select a course"
+                                        options={courseOptions} value={selectedCourseId} onchange={handelCourceChange}>
+                                    </lightning-combobox>
+                                </div>
+
+                                <!-- Status Combobox -->
+                                <div class="slds-m-bottom_medium">
+                                    <lightning-combobox label="Status" placeholder="Select a status"
+                                        options={listOfStatus} value={selectedStatus} onchange={handelSelectedStatus}>
+                                    </lightning-combobox>
+                                </div>
+
+                                <!-- Action Buttons -->
+                                <div class="slds-m-top_medium slds-text-align_right">
+                                    <lightning-button label="Back" title="Back" variant="neutral"
+                                        class="slds-m-right_small" onclick={handleBack}>
+                                    </lightning-button>
+                                    <lightning-button label="Submit Enrollment" variant="brand"
+                                        onclick={handleSaveEnrollment}>
+                                    </lightning-button>
+                                </div>
+
+                            </div>
+                        </lightning-card>
+                    </section>
+                </template>
+
+
+
+                <!-- Non-selected hint -->
+                <template if:false={selectedCourse}>
+                    <p class="slds-text-body_small slds-m-top_small">Choose a course above to view details and request
+                        enrollment.</p>
+                </template>
+            </section>
+            <template if:true={ShowPopup}>
+                <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="recordTypeHeader"
+                    class="slds-modal slds-fade-in-open">
+                    <div class="slds-box">
+                        <lightning-card>
+                            <lightning-input label="First Name" name="FirstName"
+                                onchange={handelContactdata}></lightning-input>
+                            <lightning-input label="Last Name" name="LastName" onchange={handelContactdata}
+                                required=true></lightning-input>
+                            <lightning-input label="Phone" name="Phone" type="text"
+                                onchange={handelContactdata}></lightning-input>
+                            <div class="slds-m-top_medium">
+                                <lightning-button label="Cancel" onclick={handlepopupClose}></lightning-button>
+                                <lightning-button class="slds-m-left_small" label="Save" onclick={clickToSaveContact}
+                                    variant="brand"></lightning-button>
+                            </div>
+                        </lightning-card>
+                    </div>
+                </section>
+                <div class="slds-backdrop slds-backdrop_open"></div>
+            </template>
+            <!-- Admin section: Pending Enrollments -->
+            <template if:true={isAdmin}>
+                <section class="slds-m-top_medium">
+                    <h3 class="slds-text-heading_small slds-m-bottom_x-small">Pending Enrollments</h3>
+
+                    <template if:true={pendingEnrollments.length}>
+                        <div class="slds-scrollable_y" style="max-height:300px;">
+                            <table
+                                class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_fixed-layout">
+                                <thead>
+                                    <tr class="slds-line-height_reset">
+                                        <th scope="col">
+                                            <div class="slds-truncate" title="Student">Student</div>
+                                        </th>
+                                        <th scope="col">
+                                            <div class="slds-truncate" title="Course">Course</div>
+                                        </th>
+                                        <th scope="col">
+                                            <div class="slds-truncate" title="Requested On">Requested On
+                                            </div>
+                                        </th>
+                                        <th scope="col">
+                                            <div class="slds-truncate" title="Status">Status</div>
+                                        </th>
+                                        <th scope="col">
+                                            <div class="slds-truncate" title="Actions">Actions</div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template for:each={pendingEnrollments} for:item="enrl">
+                                        <tr key={enrl.Ids}>
+                                            <td>
+                                                <div class="slds-truncate" title={enrl.student_Name}>
+                                                    {enrl.student_Name}</div>
+                                            </td>
+                                            <td>
+                                                <div class="slds-truncate" title={enrl.Name}>
+                                                    {enrl.Name}</div>
+                                            </td>
+                                            <td>
+                                                <div class="slds-truncate" title={enrl.Created_Date}>
+                                                    {enrl.Created_Date}
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="slds-truncate" title={enrl.Status}>{enrl.Status}
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <lightning-button label="Approve" title="Approve" data-id={enrl.Ids}
+                                                    variant="success" onclick={handleApprove}
+                                                    class="slds-m-right_x-small"></lightning-button>
+
+                                                <lightning-button label="Reject" title="Reject" data-id={enrl.Ids}
+                                                    variant="destructive" onclick={handleReject}></lightning-button>
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                        </div>
+                    </template>
+
+                    <template if:false={pendingEnrollments.length}>
+                        <p class="slds-text-body_small slds-m-top_small">There are no pending enrollments at
+                            the moment.
+                        </p>
+                    </template>
+                </section>
+            </template>
+        </div>
+    </lightning-card>
+</template>

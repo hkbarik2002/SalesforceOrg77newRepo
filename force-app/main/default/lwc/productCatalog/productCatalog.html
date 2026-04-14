@@ -1,0 +1,15 @@
+<template>
+    <lightning-card title="Total Selected Product">
+        <template if:true={isShow}>
+            <lightning-datatable key-field="id" data={allSelectedProduct} columns={columns} hide-checkbox-column
+                onrowaction={handelRemoveProduct}></lightning-datatable>
+            <div class="slds-align_absolute-center slds-box">
+                <h1>Total Product Amount : {totalAmount}</h1>
+            </div>
+        </template>
+        <div class="slds-grid slds-wrap">
+            <c-product-tile all-product={allProducts} remove-data={removeProductId}
+                oncartupdate={handelCalculateData}></c-product-tile>
+        </div>
+    </lightning-card>
+</template>

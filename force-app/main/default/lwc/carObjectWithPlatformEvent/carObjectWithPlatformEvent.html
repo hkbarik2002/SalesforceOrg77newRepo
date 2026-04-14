@@ -1,0 +1,67 @@
+<template>
+    <lightning-card title="Add New Car Detail">
+        <div class="slds-p-around_medium">
+            <lightning-button variant="destructive" label="Create New Car" onclick={handleNew}>
+            </lightning-button>
+        </div>
+
+        <!-- SLDS Modal Popup -->
+        <template if:true={showCarForm}>
+            <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+
+                    <!-- Modal Header -->
+                    <header class="slds-modal__header">
+                        <h2 class="slds-text-heading_medium">
+                            New Car
+                        </h2>
+                    </header>
+
+                    <!-- Modal Body -->
+                    <div class="slds-modal__content slds-p-around_medium">
+
+                        <lightning-input label="Car Name" value={Name__c} data-field="Name__c" onchange={handleChange}>
+                        </lightning-input>
+
+                        <lightning-input label="Daily Rent" type="currency" value={DailyRent__c}
+                            data-field="DailyRent__c" onchange={handleChange}>
+                        </lightning-input>
+                        <lightning-combobox label="Category" value={Category__c} placeholder="Select Category"
+                            options={CategoryOptions} data-field="Category__c"
+                            onchange={handleChange}></lightning-combobox>
+
+                        <lightning-input label="Seating Capacity" type="number" value={SeatingCapacity__c}
+                            data-field="SeatingCapacity__c" onchange={handleChange}>
+                        </lightning-input>
+
+                    </div>
+
+                    <!-- Modal Footer -->
+                    <footer class="slds-modal__footer">
+                        <lightning-button variant="brand" label="Save" onclick={handleSave}>
+                        </lightning-button>
+
+                        <lightning-button variant="brand" label="Save and New" onclick={handleSaveAndNew}>
+                        </lightning-button>
+
+                        <lightning-button variant="neutral" label="Cancel" onclick={handleCancel}>
+                        </lightning-button>
+                    </footer>
+
+                </div>
+            </section>
+
+            <!-- Backdrop -->
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </template>
+
+        <!-- Datatable -->
+        <div class="slds-p-around_medium">
+            <lightning-datatable key-field="Id" data={carData} columns={carColumns} hide-checkbox-column="true"
+                enable-infinite-loading onloadmore={handleLoadMore}>
+            </lightning-datatable>
+
+        </div>
+
+    </lightning-card>
+</template>

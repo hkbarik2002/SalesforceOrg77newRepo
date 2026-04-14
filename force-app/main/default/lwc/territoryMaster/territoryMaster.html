@@ -1,0 +1,20 @@
+<template>
+    <lightning-card title="Territory Master">
+        <div class="slds-p-around_medium">
+            <!-- Search Input Field -->
+            <lightning-input type="search" label="Search" placeholder="Enter name to search..." value={searchTerm}
+                onchange={handleSearchChange} is-loading={isLoading}></lightning-input>
+        </div>
+        <div class="slds-grid slds-wrap">
+            <template for:each={filteredLeads} for:item="leadItem">
+                <div key={leadItem.Id} class="slds-col slds-size_1-of-3 slds-p-around_small">
+                    <c-lead-card lead={leadItem} is-highlighted={leadItem.isMatch} onreassign={handleChildReassign}>
+                    </c-lead-card>
+                </div>
+            </template>
+        </div>
+        <div>
+            <lightning-button variant="base" label="Send to child" onclick={handleClickSendData}></lightning-button>
+        </div>
+    </lightning-card>
+</template>

@@ -1,0 +1,14 @@
+<template>
+    <template lwc:if={contactList}>
+        <template for:each={contactList} for:item="contactsData">
+            <div class='slds-box slds-theme_success' key={contactsData.Id}>
+                <lightning-card title={contactsData.Name}>
+                    <div class="slds-p-horizontal_small">
+                        <p>Email: {contactsData.Email}</p>
+                    </div>
+                </lightning-card>
+            </div>
+        </template>
+    </template>
+
+</template>

@@ -1,0 +1,13 @@
+<template>
+    <lightning-card title="Course Enrollment Viewer" icon-name="custom:custom63">
+        <lightning-input label="Course" value={course} onchange={handleCourseChange}></lightning-input>
+        <lightning-button label="Fetch Enrollments" onclick={fetchEnrollments}
+            class="slds-m-top_small"></lightning-button>
+        <div class="slds-box">
+            <template if:true={enrolmentData}>
+                <lightning-datatable key-field="Id" data={enrolmentData} columns={columns}
+                    hide-checkbox-column="true"></lightning-datatable>
+            </template>
+        </div>
+    </lightning-card>
+</template>

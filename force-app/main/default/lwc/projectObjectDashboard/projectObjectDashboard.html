@@ -1,0 +1,72 @@
+<template>
+    <!-- Card for Project Dashboard -->
+    <lightning-card title="Project Dashboard" icon-name="standard:work_order">
+
+        <!-- Filter Projects by Status -->
+        <div class="slds-m-around_medium">
+            <lightning-combobox name="statusFilter" label="Filter Projects by Status" value={selectedStatus}
+                options={statusOptions} onchange={handleStatusChange}>
+            </lightning-combobox>
+        </div>
+
+        <!-- Project List Datatable -->
+        <div class="slds-m-around_medium">
+            <lightning-datatable key-field="Id" data={projectList} columns={projectColumns}
+                onrowaction={handleProjectRowAction} hide-checkbox-column>
+            </lightning-datatable>
+        </div>
+    </lightning-card>
+
+    <!-- Conditional rendering for Project Tasks -->
+    <template if:true={showTasks}>
+        <lightning-card title="Project Tasks" icon-name="standard:task">
+
+            <!-- Task List with Inline Edit -->
+            <div class="slds-m-around_medium">
+                <lightning-datatable key-field="Id" data={taskList} columns={taskColumns} draft-values={draftValues}
+                    onsave={handleSaveTasks} hide-checkbox-column>
+                </lightning-datatable>
+            </div>
+
+            <!-- Add New Task Button -->
+            <div class="slds-m-around_medium">
+                <lightning-button variant="brand" label="Add New Task" onclick={openNewTaskModal}>
+                </lightning-button>
+            </div>
+        </lightning-card>
+    </template>
+
+    <!-- New Task Modal -->
+    <template if:true={isModalOpen}>
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+
+                <!-- Modal Header -->
+                <header class="slds-modal__header">
+                    <h2 class="slds-text-heading_medium">Add New Task</h2>
+                    <!-- <button class="slds-button slds-modal__close" onclick={closeModal}>
+                        ✕
+                    </button> -->
+                </header>
+
+                <!-- Modal Body -->
+                <div class="slds-modal__content slds-p-around_medium">
+                    <lightning-input label="Task Name" value={newTaskName}
+                        onchange={handleTaskNameChange}></lightning-input>
+                    <lightning-combobox label="User" value={newUserSelect} options={allUser}
+                        onchange={handlePTUserChange}></lightning-combobox>
+                    <lightning-combobox label="Status" value={newTaskStatus} options={taskStatusOptions}
+                        onchange={handleTaskStatusChange}>
+                    </lightning-combobox>
+                </div>
+
+                <!-- Modal Footer -->
+                <footer class="slds-modal__footer">
+                    <lightning-button variant="neutral" label="Cancel" onclick={closeModal}></lightning-button>
+                    <lightning-button variant="brand" label="Save Task" onclick={saveNewTask}></lightning-button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</template>

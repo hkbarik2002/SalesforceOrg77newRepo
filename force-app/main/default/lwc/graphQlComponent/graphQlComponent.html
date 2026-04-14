@@ -1,0 +1,23 @@
+<!-- simpleAccounts.html -->
+<template>
+    <lightning-card title="Chech GrapgQl Functionality">
+        <lightning-spinner alternative-text="Loading" size="small" variant="destructive"
+            if:true={isLoading}></lightning-spinner>
+        <div>
+            <lightning-input type="text" label="Enter Contact Name" onchange={handelInputChange}></lightning-input>
+        </div>
+        <div>
+            <template if:true={condata}>
+                <p class="slds-align_absolute-center" style="color: olive;"> {pageNumber} - Total page of -
+                    {totalPages}</p>
+                <lightning-datatable key-field="Id" data={condata} columns={columns}></lightning-datatable>
+            </template>
+        </div>
+        <di>
+            <lightning-button variant="destructive" icon-name="action:reset_password"
+                onclick={handleReset}></lightning-button>
+            <lightning-button disabled={disableNestButton} variant="destructive" icon-name="utility:chevronright"
+                class="slds-float_right" onclick={handleNextClick}></lightning-button>
+        </di>
+    </lightning-card>
+</template>

@@ -1,0 +1,15 @@
+<template>
+    <lightning-card>
+        <!-- <Div>
+            <lightning-input label="Input Some Text" type="text" onchange={handelChange}></lightning-input>
+        </Div>
+        <Div>
+            <c-child-component message={messageForChild}></c-child-component>
+        </Div> -->
+
+        <h2>Parent Component</h2>
+        <p>Message from child: {receivedMessage}</p>
+
+        <c-child-component onmessagefromchild={handleChildMessage}></c-child-component>
+    </lightning-card>
+</template>

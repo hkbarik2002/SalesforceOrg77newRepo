@@ -1,0 +1,50 @@
+<template>
+    <!-- 🔹 Filters Section -->
+    <lightning-card title="Employee Performance Dashboard" icon-name="standard:employee">
+        <div class="slds-m-around_medium slds-grid slds-wrap">
+
+            <!-- Department Filter -->
+            <div class="slds-col slds-size_1-of-3 slds-p-around_small">
+                <lightning-combobox label="Select Department" value={selectedDepartment} options={departmentOptions}
+                    onchange={handleDepartmentChange}>
+                </lightning-combobox>
+            </div>
+
+            <!-- From Date Filter -->
+            <div class="slds-col slds-size_1-of-3 slds-p-around_small">
+                <lightning-input type="date" label="From Date" value={fromDate} onchange={handleFromDateChange}>
+                </lightning-input>
+            </div>
+
+            <!-- To Date Filter -->
+            <div class="slds-col slds-size_1-of-3 slds-p-around_small">
+                <lightning-input type="date" label="To Date" value={toDate} onchange={handleToDateChange}>
+                </lightning-input>
+            </div>
+
+            <!-- Apply Filters Button -->
+            <div class="slds-col slds-size_1-of-1 slds-p-around_small">
+                <lightning-button label="Apply Filters" variant="brand" onclick={handleApplyFilters}>
+                </lightning-button>
+            </div>
+        </div>
+    </lightning-card>
+
+    <!-- 🔹 Datatable Section -->
+    <lightning-card title="Performance Records" icon-name="standard:dashboard">
+        <div class="slds-m-around_medium">
+            <lightning-datatable key-field="Id" data={performanceData} columns={columns} draft-values={draftValues}
+                onsave={handleSave} hide-checkbox-column="true">
+            </lightning-datatable>
+        </div>
+
+        <!-- Pagination -->
+        <div class="slds-m-around_medium slds-align_absolute-center">
+            <lightning-button label="Previous" onclick={handlePrevious} disabled={isPrevDisabled}>
+            </lightning-button>
+            <span class="slds-p-horizontal_small">Page {pageNumber} of {totalPages}</span>
+            <lightning-button label="Next" onclick={handleNext} disabled={isNextDisabled}>
+            </lightning-button>
+        </div>
+    </lightning-card>
+</template>

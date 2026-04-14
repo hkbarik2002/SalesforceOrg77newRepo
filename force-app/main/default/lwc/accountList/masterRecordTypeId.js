@@ -1,0 +1,1 @@
+export const RECORD_TYPE_ID = '012000000000000AAA';
